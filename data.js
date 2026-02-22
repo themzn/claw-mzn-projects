@@ -10,9 +10,14 @@ const projects = [
         technologies: ["HTML", "CSS", "JavaScript", "Archive.org API"],
         links: [
             {
-                label: "Demo",
-                url: "#", // Update when deployed
+                label: "Live Demo",
+                url: "https://themzn.github.io/media-player/",
                 type: "demo"
+            },
+            {
+                label: "GitHub",
+                url: "https://github.com/themzn/media-player",
+                type: "repo"
             }
         ],
         features: [
