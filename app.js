@@ -1,6 +1,9 @@
 // State
 let currentFilter = 'all';
 let searchQuery = '';
+let logFilter = 'all';
+let healthData = null;
+let tasksData = null;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeSearch();
     renderProjects();
     updateLastUpdated();
+    initializeHealthMonitor();
 });
 
 // Theme Management
@@ -199,5 +203,224 @@ function updateLastUpdated() {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
+    });
+}
+
+// Health Monitoring
+function initializeHealthMonitor() {
+    loadHealthData();
+    
+    // Refresh button
+    const refreshBtn = document.getElementById('refreshHealth');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            loadHealthData();
+            refreshBtn.textContent = '⏳ Refreshing...';
+            setTimeout(() => {
+                refreshBtn.textContent = '🔄 Refresh';
+            }, 1000);
+        });
+    }
+    
+    // Log filter buttons
+    const logFilterButtons = document.querySelectorAll('.filter-btn-small');
+    logFilterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            logFilter = btn.dataset.level;
+            logFilterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderLogs();
+        });
+    });
+}
+
+async function loadHealthData() {
+    try {
+        const [health, tasks] = await Promise.all([
+            fetch('health-status.json').then(r => r.json()),
+            fetch('devbot-tasks.json').then(r => r.json())
+        ]);
+        
+        healthData = health;
+        tasksData = tasks;
+        
+        renderServices();
+        renderMetrics();
+        renderTasks();
+        renderLogs();
+        updateHealthTimestamp();
+    } catch (error) {
+        console.error('Failed to load health data:', error);
+        document.getElementById('servicesGrid').innerHTML = 
+            '<p style="color: var(--text-secondary);">Failed to load health data. Check console for errors.</p>';
+    }
+}
+
+function renderServices() {
+    if (!healthData) return;
+    
+    const grid = document.getElementById('servicesGrid');
+    grid.innerHTML = healthData.services.map(service => {
+        const statusClass = service.status === 'online' || service.status === 'active' || service.status === 'connected' 
+            ? 'status-online' 
+            : service.status === 'configured' 
+            ? 'status-warning' 
+            : 'status-offline';
+        
+        const icon = service.status === 'online' || service.status === 'active' || service.status === 'connected' 
+            ? '✅' 
+            : service.status === 'configured' 
+            ? '⚠️' 
+            : '❌';
+        
+        return `
+            <div class="service-card ${statusClass}">
+                <div class="service-header">
+                    <span class="service-icon">${icon}</span>
+                    <span class="service-name">${service.name}</span>
+                </div>
+                <div class="service-status">${service.status.toUpperCase()}</div>
+                ${service.details ? `<p class="service-details">${service.details}</p>` : ''}
+                ${service.uptime ? `<p class="service-uptime">Uptime: ${service.uptime}</p>` : ''}
+                ${service.lastActivity ? `<p class="service-activity">Last: ${formatDateTime(service.lastActivity)}</p>` : ''}
+                ${service.note ? `<p class="service-note">ℹ️ ${service.note}</p>` : ''}
+            </div>
+        `;
+    }).join('');
+}
+
+function renderMetrics() {
+    if (!healthData) return;
+    
+    const container = document.getElementById('systemMetrics');
+    const sys = healthData.system;
+    
+    container.innerHTML = `
+        <div class="metric-card">
+            <div class="metric-icon">💾</div>
+            <div class="metric-content">
+                <div class="metric-label">Disk Usage</div>
+                <div class="metric-value">${sys.disk.used} ${sys.disk.unit} / ${sys.disk.total} ${sys.disk.unit}</div>
+                <div class="metric-bar">
+                    <div class="metric-bar-fill" style="width: ${sys.disk.percent}%"></div>
+                </div>
+                <div class="metric-percent">${sys.disk.percent}% used</div>
+            </div>
+        </div>
+        
+        <div class="metric-card">
+            <div class="metric-icon">🧠</div>
+            <div class="metric-content">
+                <div class="metric-label">Memory Usage</div>
+                <div class="metric-value">${sys.memory.used} ${sys.memory.unit} / ${sys.memory.total}</div>
+                <div class="metric-bar">
+                    <div class="metric-bar-fill" style="width: ${sys.memory.percent}%"></div>
+                </div>
+                <div class="metric-percent">${sys.memory.percent}% used</div>
+            </div>
+        </div>
+        
+        <div class="metric-card">
+            <div class="metric-icon">⏱️</div>
+            <div class="metric-content">
+                <div class="metric-label">System Uptime</div>
+                <div class="metric-value">${sys.uptime}</div>
+                <div class="metric-details">${sys.hostname} | ${sys.os}</div>
+            </div>
+        </div>
+    `;
+}
+
+function renderTasks() {
+    if (!tasksData) return;
+    
+    const container = document.getElementById('devbotTasks');
+    if (tasksData.tasks.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-secondary);">No DevBot tasks yet.</p>';
+        return;
+    }
+    
+    container.innerHTML = tasksData.tasks.map(task => {
+        const statusIcon = task.status === 'completed' ? '✅' : task.status === 'failed' ? '❌' : '⏱️';
+        const statusClass = task.status === 'completed' ? 'task-completed' : task.status === 'failed' ? 'task-failed' : 'task-progress';
+        
+        return `
+            <div class="task-card ${statusClass}">
+                <div class="task-header">
+                    <span class="task-icon">${statusIcon}</span>
+                    <span class="task-name">${task.name}</span>
+                    <span class="task-duration">${task.duration}</span>
+                </div>
+                <div class="task-times">
+                    <span>Started: ${formatDateTime(task.startTime)}</span>
+                    ${task.endTime ? `<span>Finished: ${formatDateTime(task.endTime)}</span>` : '<span>In Progress...</span>'}
+                </div>
+                ${task.assignedTo ? `<div class="task-assigned">Assigned to: ${task.assignedTo}</div>` : ''}
+                ${task.deliverables && task.deliverables.length > 0 ? `
+                    <div class="task-deliverables">
+                        ${task.deliverables.map(d => `
+                            <a href="${d.url}" target="_blank" class="task-link">${d.label} →</a>
+                        `).join('')}
+                    </div>
+                ` : ''}
+                ${task.error ? `<div class="task-error">❌ Error: ${task.error}</div>` : ''}
+                ${task.notes ? `<div class="task-notes">📝 ${task.notes}</div>` : ''}
+            </div>
+        `;
+    }).join('');
+}
+
+function renderLogs() {
+    if (!healthData) return;
+    
+    const container = document.getElementById('systemLogs');
+    const logs = healthData.logs.filter(log => 
+        logFilter === 'all' || log.level === logFilter
+    );
+    
+    if (logs.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-secondary);">No logs for this filter.</p>';
+        return;
+    }
+    
+    container.innerHTML = logs.map(log => {
+        const levelClass = `log-${log.level}`;
+        const levelIcon = log.level === 'error' ? '❌' : log.level === 'warn' ? '⚠️' : 'ℹ️';
+        
+        return `
+            <div class="log-entry ${levelClass}">
+                <span class="log-time">${formatTime(log.timestamp)}</span>
+                <span class="log-level">${levelIcon} ${log.level.toUpperCase()}</span>
+                <span class="log-message">${log.message}</span>
+            </div>
+        `;
+    }).join('');
+}
+
+function updateHealthTimestamp() {
+    if (!healthData) return;
+    const elem = document.getElementById('healthLastUpdate');
+    if (elem) {
+        elem.textContent = formatDateTime(healthData.lastUpdate);
+    }
+}
+
+function formatDateTime(isoString) {
+    if (!isoString) return 'Never';
+    const date = new Date(isoString);
+    return date.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+function formatTime(isoString) {
+    const date = new Date(isoString);
+    return date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
     });
 }

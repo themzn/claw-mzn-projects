@@ -18,6 +18,7 @@
         <nav>
             <button class="nav-btn active" data-section="projects">Projects</button>
             <button class="nav-btn" data-section="guidelines">Guidelines</button>
+            <button class="nav-btn" data-section="health">Health</button>
             <button class="nav-btn" data-section="about">About</button>
             <button class="theme-toggle" id="themeToggle">🌙</button>
         </nav>
@@ -109,6 +110,42 @@
                     <li><strong>Efficient:</strong> Batch similar checks, minimize redundant communication</li>
                 </ul>
             </div>
+        </section>
+
+        <!-- Health Section -->
+        <section id="health" class="section">
+            <div class="health-header">
+                <h2>🏥 System Health Monitor</h2>
+                <button class="refresh-btn" id="refreshHealth">🔄 Refresh</button>
+            </div>
+
+            <div class="content-block">
+                <h3>Service Status</h3>
+                <div id="servicesGrid" class="services-grid"></div>
+            </div>
+
+            <div class="content-block">
+                <h3>System Metrics</h3>
+                <div id="systemMetrics" class="metrics-grid"></div>
+            </div>
+
+            <div class="content-block">
+                <h3>DevBot Task History</h3>
+                <div id="devbotTasks" class="tasks-list"></div>
+            </div>
+
+            <div class="content-block">
+                <h3>Recent Logs</h3>
+                <div class="log-controls">
+                    <button class="filter-btn-small active" data-level="all">All</button>
+                    <button class="filter-btn-small" data-level="info">Info</button>
+                    <button class="filter-btn-small" data-level="warn">Warn</button>
+                    <button class="filter-btn-small" data-level="error">Error</button>
+                </div>
+                <div id="systemLogs" class="logs-container"></div>
+            </div>
+
+            <p class="last-update">Last updated: <span id="healthLastUpdate">--</span></p>
         </section>
 
         <!-- About Section -->

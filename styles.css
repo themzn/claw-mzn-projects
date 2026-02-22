@@ -408,6 +408,342 @@ footer {
     margin-top: 0.5rem;
 }
 
+/* Health Monitor */
+.health-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.health-header h2 {
+    margin: 0;
+}
+
+.refresh-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.refresh-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.service-card {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border-left: 4px solid var(--border);
+}
+
+.service-card.status-online {
+    border-left-color: var(--success);
+}
+
+.service-card.status-warning {
+    border-left-color: var(--warning);
+}
+
+.service-card.status-offline {
+    border-left-color: #ef4444;
+}
+
+.service-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.service-icon {
+    font-size: 1.5rem;
+}
+
+.service-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.service-status {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.service-details, .service-uptime, .service-activity, .service-note {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0.25rem 0;
+}
+
+.service-note {
+    color: var(--accent);
+    font-style: italic;
+}
+
+/* Metrics */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.metric-card {
+    display: flex;
+    gap: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.metric-icon {
+    font-size: 2.5rem;
+}
+
+.metric-content {
+    flex: 1;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.metric-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.metric-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.metric-bar-fill {
+    height: 100%;
+    background: var(--success);
+    transition: width 0.3s;
+}
+
+.metric-percent {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.metric-details {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+/* Tasks */
+.tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.task-card {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border-left: 4px solid var(--border);
+}
+
+.task-card.task-completed {
+    border-left-color: var(--success);
+}
+
+.task-card.task-failed {
+    border-left-color: #ef4444;
+}
+
+.task-card.task-progress {
+    border-left-color: var(--warning);
+}
+
+.task-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.task-icon {
+    font-size: 1.5rem;
+}
+
+.task-name {
+    flex: 1;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.task-duration {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    background: var(--bg-primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+}
+
+.task-times {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.task-assigned {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0.5rem 0;
+}
+
+.task-deliverables {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin: 0.75rem 0;
+}
+
+.task-link {
+    padding: 0.5rem 1rem;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: opacity 0.3s;
+}
+
+.task-link:hover {
+    opacity: 0.9;
+}
+
+.task-error {
+    background: #fef2f2;
+    color: #991b1b;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+}
+
+[data-theme="dark"] .task-error {
+    background: #450a0a;
+    color: #fca5a5;
+}
+
+.task-notes {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+    font-style: italic;
+}
+
+/* Logs */
+.log-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.filter-btn-small {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+}
+
+.filter-btn-small:hover {
+    transform: translateY(-1px);
+}
+
+.filter-btn-small.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.logs-container {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+}
+
+.log-entry {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+.log-time {
+    color: var(--text-secondary);
+}
+
+.log-level {
+    font-weight: 600;
+}
+
+.log-entry.log-info .log-level {
+    color: var(--info);
+}
+
+.log-entry.log-warn .log-level {
+    color: var(--warning);
+}
+
+.log-entry.log-error .log-level {
+    color: #ef4444;
+}
+
+.log-message {
+    color: var(--text-primary);
+}
+
+.last-update {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 2rem;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .container {
@@ -436,5 +772,25 @@ footer {
     
     .theme-toggle {
         margin-left: 0;
+    }
+    
+    .health-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .services-grid, .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .task-times {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .log-entry {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
     }
 }

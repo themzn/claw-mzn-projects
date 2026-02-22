@@ -1,0 +1,77 @@
+{
+  "lastUpdate": "2026-02-22T13:15:00Z",
+  "services": [
+    {
+      "name": "OpenClaw Gateway",
+      "status": "online",
+      "uptime": "21h 12m",
+      "details": "Running on port 18789 (local loopback)",
+      "pid": 93243
+    },
+    {
+      "name": "Claw Agent (Main)",
+      "status": "active",
+      "model": "claude-sonnet-4-5",
+      "sessionCount": 6,
+      "lastActivity": "2026-02-22T13:14:55Z",
+      "details": "Active in Telegram group 'Claw Projects 🦀'"
+    },
+    {
+      "name": "DevBot",
+      "status": "configured",
+      "lastActivity": null,
+      "details": "Agent configured but not yet spawned successfully",
+      "note": "Spawn allowlist configuration in progress"
+    },
+    {
+      "name": "Telegram",
+      "status": "connected",
+      "details": "Group: Claw Projects 🦀 | Bot: @clawpro_bot",
+      "mode": "Group messages (requireMention: false)"
+    }
+  ],
+  "system": {
+    "disk": {
+      "used": "5.1",
+      "total": "75",
+      "unit": "GB",
+      "percent": 7
+    },
+    "memory": {
+      "used": "565",
+      "total": "7.6",
+      "unit": "MB / GB",
+      "percent": 7
+    },
+    "uptime": "21h 12m",
+    "hostname": "ubuntu-openclaw",
+    "os": "Linux 5.10.0-37-amd64"
+  },
+  "logs": [
+    {
+      "timestamp": "2026-02-22T13:14:55Z",
+      "level": "info",
+      "message": "Agent responding in Telegram group"
+    },
+    {
+      "timestamp": "2026-02-22T13:10:00Z",
+      "level": "info",
+      "message": "Gateway status: healthy (pid 93243)"
+    },
+    {
+      "timestamp": "2026-02-22T13:05:00Z",
+      "level": "info",
+      "message": "DevBot agent configuration added to openclaw.json"
+    },
+    {
+      "timestamp": "2026-02-22T03:00:00Z",
+      "level": "warn",
+      "message": "DevBot spawn failed: Gateway pairing required"
+    },
+    {
+      "timestamp": "2026-02-22T02:45:00Z",
+      "level": "info",
+      "message": "Project tracker deployed successfully"
+    }
+  ]
+}
