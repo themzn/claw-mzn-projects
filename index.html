@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claw × Mzn Projects</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🦾 Claw × Mzn Projects</h1>
+            <p class="subtitle">Collaborative AI-Driven Development</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav>
+            <button class="nav-btn active" data-section="projects">Projects</button>
+            <button class="nav-btn" data-section="guidelines">Guidelines</button>
+            <button class="nav-btn" data-section="about">About</button>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </nav>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section active">
+            <div class="controls">
+                <input type="text" id="searchInput" placeholder="🔍 Search projects..." />
+                <div class="filters">
+                    <button class="filter-btn active" data-status="all">All</button>
+                    <button class="filter-btn" data-status="complete">Complete</button>
+                    <button class="filter-btn" data-status="in-progress">In Progress</button>
+                    <button class="filter-btn" data-status="planned">Planned</button>
+                </div>
+            </div>
+            <div id="projectsGrid" class="projects-grid"></div>
+        </section>
+
+        <!-- Guidelines Section -->
+        <section id="guidelines" class="section">
+            <div class="content-block">
+                <h2>🤝 Collaboration Model</h2>
+                <div class="architecture">
+                    <div class="role">
+                        <h3>Mohammed (Mzn)</h3>
+                        <p class="role-title">System Engineer</p>
+                        <ul>
+                            <li>Technical oversight</li>
+                            <li>Approval authority</li>
+                            <li>Strategic direction</li>
+                        </ul>
+                    </div>
+                    <div class="arrow">↔</div>
+                    <div class="role">
+                        <h3>Claw 🦾</h3>
+                        <p class="role-title">Manager</p>
+                        <ul>
+                            <li>Requirements gathering</li>
+                            <li>Architecture design</li>
+                            <li>Quality assurance</li>
+                            <li>DevBot orchestration</li>
+                        </ul>
+                    </div>
+                    <div class="arrow">↔</div>
+                    <div class="role">
+                        <h3>DevBot</h3>
+                        <p class="role-title">Developer</p>
+                        <ul>
+                            <li>Implementation</li>
+                            <li>Testing</li>
+                            <li>Documentation</li>
+                            <li>Deployment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>📋 Approval Workflow</h2>
+                <ol class="workflow">
+                    <li><strong>Request:</strong> Mzn describes what's needed</li>
+                    <li><strong>Draft Spec:</strong> Claw creates technical specification</li>
+                    <li><strong>Approval:</strong> Mzn reviews and approves architecture</li>
+                    <li><strong>Implementation:</strong> DevBot builds according to spec</li>
+                    <li><strong>Review:</strong> Testing and quality check</li>
+                    <li><strong>Deploy:</strong> Go live</li>
+                </ol>
+                <div class="highlight">
+                    ⚠️ <strong>Critical:</strong> No development work starts without approved technical decisions.
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>🔧 DevBot Architecture</h2>
+                <ul>
+                    <li><strong>Dedicated Agent:</strong> Separate session focused purely on development</li>
+                    <li><strong>Quality Standards:</strong> Tests everything, follows best practices</li>
+                    <li><strong>Documentation:</strong> Builds inline comments and setup guides</li>
+                    <li><strong>Non-blocking:</strong> Claw stays responsive during long builds</li>
+                </ul>
+            </div>
+
+            <div class="content-block">
+                <h2>💬 Communication Protocols</h2>
+                <ul>
+                    <li><strong>Context Awareness:</strong> Full awareness across all topics in "Claw Projects 🦀"</li>
+                    <li><strong>Direct Communication:</strong> No fluff, results over conversation</li>
+                    <li><strong>Async Updates:</strong> DevBot reports completion when done</li>
+                    <li><strong>Efficient:</strong> Batch similar checks, minimize redundant communication</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="content-block">
+                <h2>About This Site</h2>
+                <p>This page documents projects developed through collaboration between Mohammed (system engineer) and Claw (AI assistant), with DevBot handling implementation.</p>
+                
+                <h3>Purpose</h3>
+                <ul>
+                    <li>Track all collaborative projects</li>
+                    <li>Document technical decisions</li>
+                    <li>Share collaboration guidelines</li>
+                    <li>Provide deployment references</li>
+                </ul>
+
+                <h3>Tech Stack</h3>
+                <p>This site itself is built with:</p>
+                <ul>
+                    <li>Pure HTML/CSS/JavaScript (no dependencies)</li>
+                    <li>Mobile-responsive design</li>
+                    <li>Dark mode support</li>
+                    <li>Hosted on GitHub Pages</li>
+                </ul>
+
+                <h3>Repository</h3>
+                <p>Private repository: <code>claw-mzn-projects</code></p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>Built with 🦾 by Claw & Mzn</p>
+            <p class="timestamp">Last updated: <span id="lastUpdated"></span></p>
+        </footer>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
