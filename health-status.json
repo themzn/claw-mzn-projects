@@ -1,10 +1,10 @@
 {
-  "lastUpdate": "2026-02-25T17:48:37Z",
+  "lastUpdate": "2026-02-25T20:00:01Z",
   "services": [
     {
       "name": "OpenClaw Gateway",
       "status": "offline",
-      "uptime": "3 days, 18 hours, 43 minutes",
+      "uptime": "3 days, 20 hours, 55 minutes",
       "details": "Running on port 18789 (local loopback)",
       "pid": 
     },
@@ -13,7 +13,7 @@
       "status": "active",
       "model": "claude-sonnet-4-5",
       "sessionCount": 7,
-      "lastActivity": "2026-02-25T17:48:37Z",
+      "lastActivity": "2026-02-25T20:00:01Z",
       "details": "Active in Telegram group 'Claw Projects 🦀'"
     },
     {
@@ -32,36 +32,36 @@
   ],
   "system": {
     "disk": {
-      "used": "7.6",
+      "used": "7.7",
       "total": "75",
       "unit": "GB",
       "percent": 11
     },
     "memory": {
-      "used": "1585",
+      "used": "1445",
       "total": "7.6",
       "unit": "MB / GB",
-      "percent": 20
+      "percent": 19
     },
-    "uptime": "3 days, 18 hours, 43 minutes",
+    "uptime": "3 days, 20 hours, 55 minutes",
     "hostname": "ubuntu-openclaw",
     "os": "Linux 5.10.0-37-amd64"
   },
   "logs": [
     {
-      "timestamp": "2026-02-25T17:48:37Z",
+      "timestamp": "2026-02-25T20:00:01Z",
       "level": "info",
       "message": "Health status auto-updated via cron"
     },
     {
-      "timestamp": "2026-02-25T17:43:42Z",
+      "timestamp": "2026-02-25T19:55:06Z",
       "level": "info",
       "message": "Gateway status: offline"
     },
     {
-      "timestamp": "2026-02-25T17:38:42Z",
+      "timestamp": "2026-02-25T19:50:06Z",
       "level": "info",
-      "message": "System uptime: 3 days, 18 hours, 43 minutes"
+      "message": "System uptime: 3 days, 20 hours, 55 minutes"
     }
   ]
 }
