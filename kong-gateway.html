@@ -141,14 +141,88 @@
             background: var(--accent);
             color: var(--bg);
         }
+        
+        .security-notice {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #7f1d1d;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        
+        .security-notice h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .security-notice p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        
+        .page-header h1 {
+            margin: 0 0 0.75rem 0;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .page-header .subtitle {
+            font-size: 1.15rem;
+            opacity: 0.95;
+            margin: 0;
+        }
+        
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
+        <div class="page-header">
             <h1>🐵 Kong Gateway + Monitoring</h1>
             <p class="subtitle">Production-Ready API Gateway with Prometheus & Grafana</p>
-        </header>
+            <div class="badge-container">
+                <span class="badge">✅ SOAP Integration</span>
+                <span class="badge">🔐 API Key Auth</span>
+                <span class="badge">⏱️ Rate Limited</span>
+                <span class="badge">📊 Real-time Monitoring</span>
+            </div>
+        </div>
+        
+        <div class="security-notice">
+            <h4><span style="font-size: 1.2rem;">🔒</span> Security Notice</h4>
+            <p>This documentation uses <code>[REDACTED]</code> placeholders for sensitive credentials. Actual backend authentication credentials are stored securely in Kong's configuration and are never exposed to clients or in public documentation.</p>
+        </div>
 
         <a href="index.html" class="back-btn">← Back to Projects</a>
 
@@ -422,13 +496,125 @@ Rate Limit: 5 requests/minute
                 </code>
             </div>
             
-            <h3>Plugins Enabled</h3>
-            <ul>
-                <li><strong>key-auth:</strong> Require API key authentication</li>
-                <li><strong>rate-limiting:</strong> 5 requests/min per consumer</li>
-                <li><strong>file-log:</strong> Log to /kong-logs/kong-requests.log</li>
-                <li><strong>prometheus:</strong> Expose metrics at /metrics (global)</li>
-            </ul>
+        </section>
+
+        <!-- Plugins Architecture -->
+        <section class="content-block">
+            <h2>🔌 Kong Plugins Architecture</h2>
+            <p>Our Kong Gateway uses 5 strategic plugins to provide authentication, rate limiting, monitoring, logging, and SOAP transformation capabilities.</p>
+            
+            <div style="display: grid; gap: 1.5rem; margin-top: 2rem;">
+                <!-- Plugin 1: key-auth -->
+                <div style="background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%); border-left: 5px solid #3b82f6; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow);">
+                    <h3 style="margin: 0 0 0.75rem 0; color: #3b82f6; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.5rem;">🔐</span> key-auth Plugin
+                    </h3>
+                    <p style="margin-bottom: 1rem;"><strong>Purpose:</strong> Client-side API key authentication</p>
+                    <div style="background: var(--bg); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                        <strong>Configuration:</strong>
+                        <ul style="margin: 0.5rem 0 0 1.5rem; font-size: 0.9rem;">
+                            <li><code>key_names: ["apikey"]</code> - Header/query parameter name</li>
+                            <li><code>key_in_header: true</code> - Accept API key in headers</li>
+                            <li><code>key_in_query: true</code> - Accept API key in URL params</li>
+                        </ul>
+                    </div>
+                    <p><strong>How it works:</strong> Validates incoming requests against consumer credentials. Returns <code>401 Unauthorized</code> if API key is missing or invalid.</p>
+                    <p><strong>Use case:</strong> Protects all Kurmi endpoints. Clients must provide <code>apikey: kurmi-presales-2025</code> to access any route.</p>
+                </div>
+
+                <!-- Plugin 2: rate-limiting -->
+                <div style="background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%); border-left: 5px solid #f59e0b; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow);">
+                    <h3 style="margin: 0 0 0.75rem 0; color: #f59e0b; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.5rem;">⏱️</span> rate-limiting Plugin
+                    </h3>
+                    <p style="margin-bottom: 1rem;"><strong>Purpose:</strong> Prevent API abuse and protect backend resources</p>
+                    <div style="background: var(--bg); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                        <strong>Configuration:</strong>
+                        <ul style="margin: 0.5rem 0 0 1.5rem; font-size: 0.9rem;">
+                            <li><code>minute: 5</code> - Maximum 5 requests per minute</li>
+                            <li><code>policy: local</code> - In-memory counter (fast, no external store)</li>
+                            <li><code>limit_by: consumer</code> - Rate limit tracked per API key</li>
+                        </ul>
+                    </div>
+                    <p><strong>How it works:</strong> Tracks request count per consumer per time window. Returns <code>429 Too Many Requests</code> when limit exceeded. Headers include remaining quota.</p>
+                    <p><strong>Use case:</strong> Prevents single consumer from overwhelming Kurmi backend. Each API key gets 5 req/min quota independently.</p>
+                </div>
+
+                <!-- Plugin 3: file-log -->
+                <div style="background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%); border-left: 5px solid #8b5cf6; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow);">
+                    <h3 style="margin: 0 0 0.75rem 0; color: #8b5cf6; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.5rem;">📝</span> file-log Plugin
+                    </h3>
+                    <p style="margin-bottom: 1rem;"><strong>Purpose:</strong> Persistent request/response logging for debugging and audit trails</p>
+                    <div style="background: var(--bg); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                        <strong>Configuration:</strong>
+                        <ul style="margin: 0.5rem 0 0 1.5rem; font-size: 0.9rem;">
+                            <li><code>path: /kong-logs/kong-requests.log</code> - Log file location</li>
+                            <li><code>reopen: true</code> - Support log rotation</li>
+                        </ul>
+                    </div>
+                    <p><strong>How it works:</strong> Writes JSON-formatted log entry for each request containing: timestamp, consumer, route, latencies, status codes, request/response headers.</p>
+                    <p><strong>Use case:</strong> Debug SOAP transformations, track consumer usage patterns, audit API access, analyze performance bottlenecks.</p>
+                </div>
+
+                <!-- Plugin 4: prometheus (global) -->
+                <div style="background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%); border-left: 5px solid #10b981; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow);">
+                    <h3 style="margin: 0 0 0.75rem 0; color: #10b981; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.5rem;">📊</span> prometheus Plugin (Global)
+                    </h3>
+                    <p style="margin-bottom: 1rem;"><strong>Purpose:</strong> Expose real-time metrics for monitoring and alerting</p>
+                    <div style="background: var(--bg); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                        <strong>Configuration:</strong>
+                        <ul style="margin: 0.5rem 0 0 1.5rem; font-size: 0.9rem;">
+                            <li><code>per_consumer: true</code> - Track metrics by API key</li>
+                            <li><code>status_code_metrics: true</code> - Count requests by HTTP status</li>
+                            <li><code>latency_metrics: true</code> - Record response times</li>
+                            <li><code>bandwidth_metrics: true</code> - Track data transfer</li>
+                        </ul>
+                    </div>
+                    <p><strong>How it works:</strong> Exposes <code>/metrics</code> endpoint in Prometheus format. Scraped every 15s by Prometheus server. Powers Grafana dashboards.</p>
+                    <p><strong>Use case:</strong> Real-time visibility into Kong health, request rates, error rates, latency percentiles, consumer activity.</p>
+                </div>
+
+                <!-- Plugin 5: pre-function -->
+                <div style="background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%); border-left: 5px solid #ef4444; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow);">
+                    <h3 style="margin: 0 0 0.75rem 0; color: #ef4444; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.5rem;">🔄</span> pre-function Plugin
+                    </h3>
+                    <p style="margin-bottom: 1rem;"><strong>Purpose:</strong> Custom request transformation via Lua scripting</p>
+                    <div style="background: var(--bg); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                        <strong>What it does (for Kurmi):</strong>
+                        <ul style="margin: 0.5rem 0 0 1.5rem; font-size: 0.9rem;">
+                            <li>Transforms GET → POST method</li>
+                            <li>Generates complete SOAP XML envelope</li>
+                            <li>Injects backend credentials (hidden from client)</li>
+                            <li>Sets SOAP headers (Content-Type, SOAPAction, Content-Length)</li>
+                        </ul>
+                    </div>
+                    <p><strong>How it works:</strong> Executes Lua code in the <code>access</code> phase (before proxying to backend). Uses <code>kong.service.request</code> API to modify outgoing request.</p>
+                    <p><strong>Use case:</strong> Enables REST → SOAP translation. Client sends simple GET, Kong transforms it into complex SOAP POST with credentials. Makes legacy APIs modern.</p>
+                    <div style="background: var(--bg); padding: 1rem; border-radius: 6px; margin-top: 1rem;">
+                        <strong style="color: #ef4444;">⚠️ Security Note:</strong> Backend credentials are injected server-side and never exposed to clients. Only Kong has access to SOAP username/password.
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+                <h3 style="margin: 0 0 0.5rem 0;">🎯 Plugin Execution Order</h3>
+                <p style="margin: 0 0 1rem 0;">Kong executes plugins in a specific priority order:</p>
+                <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 0.75rem 1.25rem; border-radius: 6px; font-weight: bold;">1. key-auth</div>
+                    <span style="font-size: 1.5rem;">→</span>
+                    <div style="background: rgba(255,255,255,0.2); padding: 0.75rem 1.25rem; border-radius: 6px; font-weight: bold;">2. rate-limiting</div>
+                    <span style="font-size: 1.5rem;">→</span>
+                    <div style="background: rgba(255,255,255,0.2); padding: 0.75rem 1.25rem; border-radius: 6px; font-weight: bold;">3. pre-function</div>
+                    <span style="font-size: 1.5rem;">→</span>
+                    <div style="background: rgba(255,255,255,0.2); padding: 0.75rem 1.25rem; border-radius: 6px; font-weight: bold;">4. proxy to backend</div>
+                    <span style="font-size: 1.5rem;">→</span>
+                    <div style="background: rgba(255,255,255,0.2); padding: 0.75rem 1.25rem; border-radius: 6px; font-weight: bold;">5. file-log + prometheus</div>
+                </div>
+                <p style="margin: 1rem 0 0 0; font-size: 0.9rem; opacity: 0.9;">Authentication and rate limiting happen before transformation, ensuring only authorized requests are processed.</p>
+            </div>
         </section>
 
         <!-- Metrics Collected -->
@@ -485,7 +671,7 @@ GET http://89.167.90.116:8000/kurmi/version?apikey=kurmi-presales-2025
                     <li>✅ Checks rate limit (5/min)</li>
                     <li>✅ Transforms GET → POST</li>
                     <li>✅ Injects full SOAP XML envelope</li>
-                    <li>✅ Adds Kurmi credentials (clawclaw/noaiwithoutapi)</li>
+                    <li>✅ Adds Kurmi credentials (auto-injected, hidden from client)</li>
                     <li>✅ Sets proper headers (Content-Type, SOAPAction)</li>
                 </ul>
                 
@@ -502,9 +688,10 @@ SOAPAction: GET_KURMI_VERSION<br>
 &nbsp;&nbsp;&lt;soapenv:Body&gt;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&lt;ns:GET_KURMI_VERSION_QUERY_TYPE&gt;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;auth&gt;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;login&gt;clawclaw&lt;/login&gt;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;password&gt;noaiwithoutapi&lt;/password&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;login&gt;[REDACTED]&lt;/login&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;password&gt;[REDACTED]&lt;/password&gt;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/auth&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- Credentials auto-injected by Kong, hidden from client --&gt;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&lt;/ns:GET_KURMI_VERSION_QUERY_TYPE&gt;<br>
 &nbsp;&nbsp;&lt;/soapenv:Body&gt;<br>
 &lt;/soapenv:Envelope&gt;
