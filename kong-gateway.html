@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kong Gateway + Monitoring - Claw × Mzn</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .architecture-diagram {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+        
+        .flow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            min-width: fit-content;
+        }
+        
+        .flow-box {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            min-width: 150px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .flow-box h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .flow-box p {
+            margin: 0;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .flow-arrow {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+        
+        .stack-diagram {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stack-layer {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        .stack-layer h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--accent);
+        }
+        
+        .stack-layer ul {
+            margin: 0.5rem 0 0 0;
+            padding-left: 1.5rem;
+        }
+        
+        .metric-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .metric-card {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 0.5rem 0;
+        }
+        
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .code-block {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        
+        .url-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--success);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .url-box strong {
+            color: var(--success);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐵 Kong Gateway + Monitoring</h1>
+            <p class="subtitle">Production-Ready API Gateway with Prometheus & Grafana</p>
+        </header>
+
+        <a href="index.html" class="back-btn">← Back to Projects</a>
+
+        <!-- Overview -->
+        <section class="content-block">
+            <h2>📋 Project Overview</h2>
+            <p>Complete Kong Gateway OSS deployment with enterprise-grade monitoring, authentication, rate limiting, and logging capabilities. Fully Dockerized for easy deployment and scaling.</p>
+            
+            <div class="metric-cards">
+                <div class="metric-card">
+                    <div class="metric-label">Status</div>
+                    <div class="metric-value">✅ Complete</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Deployment</div>
+                    <div class="metric-value">Docker</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Services</div>
+                    <div class="metric-value">3</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Mode</div>
+                    <div class="metric-value">DB-less</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Diagram -->
+        <section class="content-block">
+            <h2>🏗️ System Architecture</h2>
+            
+            <div class="architecture-diagram">
+                <h3 style="text-align: center; margin-bottom: 1.5rem;">Request Flow</h3>
+                <div class="flow-container">
+                    <div class="flow-box">
+                        <h4>📱 Client</h4>
+                        <p>Mobile/Browser</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">Sends API requests</p>
+                    </div>
+                    
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <h4>🐵 Kong Gateway</h4>
+                        <p>Port 8000</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">
+                            ✓ Auth Check<br>
+                            ✓ Rate Limit<br>
+                            ✓ Logging
+                        </p>
+                    </div>
+                    
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <h4>🎯 Backend API</h4>
+                        <p>Kurmi SOAP</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">Proxied service</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 2rem 0; font-size: 1.5rem; color: var(--accent);">↓</div>
+                
+                <h3 style="text-align: center; margin-bottom: 1.5rem;">Monitoring Flow</h3>
+                <div class="flow-container">
+                    <div class="flow-box">
+                        <h4>🐵 Kong</h4>
+                        <p>Exposes /metrics</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">Prometheus format</p>
+                    </div>
+                    
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <h4>📊 Prometheus</h4>
+                        <p>Port 9090</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">
+                            Scrapes every 15s<br>
+                            15-day retention
+                        </p>
+                    </div>
+                    
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <h4>📈 Grafana</h4>
+                        <p>Port 3000</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">
+                            Visual dashboards<br>
+                            Auto-refresh 5s
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Stack -->
+        <section class="content-block">
+            <h2>🔧 Technical Stack</h2>
+            
+            <div class="stack-diagram">
+                <div class="stack-layer">
+                    <h4>🐳 Container Layer</h4>
+                    <ul>
+                        <li><strong>Docker Compose:</strong> Multi-container orchestration</li>
+                        <li><strong>Private Network:</strong> Isolated kong-net bridge network</li>
+                        <li><strong>Volume Mounts:</strong> Persistent data and configuration</li>
+                    </ul>
+                </div>
+                
+                <div class="stack-layer">
+                    <h4>🐵 API Gateway Layer</h4>
+                    <ul>
+                        <li><strong>Kong Gateway 3.9.1:</strong> Open-source API gateway</li>
+                        <li><strong>DB-less Mode:</strong> Declarative configuration (kong.yml)</li>
+                        <li><strong>Plugins:</strong> key-auth, rate-limiting, file-log, prometheus</li>
+                    </ul>
+                </div>
+                
+                <div class="stack-layer">
+                    <h4>📊 Monitoring Layer</h4>
+                    <ul>
+                        <li><strong>Prometheus:</strong> Time-series metrics database</li>
+                        <li><strong>Grafana 12.4.0:</strong> Visualization and dashboards</li>
+                        <li><strong>Auto-provisioned:</strong> Datasource and dashboards pre-configured</li>
+                    </ul>
+                </div>
+                
+                <div class="stack-layer">
+                    <h4>🎯 Backend Layer</h4>
+                    <ul>
+                        <li><strong>Kurmi SOAP API:</strong> Target backend service</li>
+                        <li><strong>HTTPS Support:</strong> TLS-enabled upstream</li>
+                        <li><strong>Timeout Handling:</strong> 60s connect/read/write timeouts</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="content-block">
+            <h2>✨ Key Features</h2>
+            
+            <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="margin: 0 0 0.5rem 0;">🔐 Authentication</h4>
+                    <p>API key-based authentication with consumer tracking</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>Header or query parameter</li>
+                        <li>Consumer: mohammed</li>
+                        <li>Credential hiding support</li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="margin: 0 0 0.5rem 0;">⏱️ Rate Limiting</h4>
+                    <p>5 requests/minute per consumer protection</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>Local policy (in-memory)</li>
+                        <li>Per-consumer tracking</li>
+                        <li>HTTP 429 on limit exceeded</li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="margin: 0 0 0.5rem 0;">📝 Request Logging</h4>
+                    <p>Full request/response logging to file</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>JSON format logs</li>
+                        <li>Consumer identification</li>
+                        <li>Latency tracking</li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="margin: 0 0 0.5rem 0;">📊 Prometheus Metrics</h4>
+                    <p>Comprehensive monitoring metrics</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>HTTP request counters</li>
+                        <li>Latency histograms</li>
+                        <li>Bandwidth tracking</li>
+                        <li>Status code distribution</li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="margin: 0 0 0.5rem 0;">📈 Grafana Dashboards</h4>
+                    <p>Pre-configured visual monitoring</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>Real-time request graphs</li>
+                        <li>Status code pie charts</li>
+                        <li>Latency trends</li>
+                        <li>Auto-refresh every 5s</li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="margin: 0 0 0.5rem 0;">🔧 DB-less Mode</h4>
+                    <p>No database required</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>Declarative kong.yml config</li>
+                        <li>Version controllable</li>
+                        <li>Easy replication</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Access URLs -->
+        <section class="content-block">
+            <h2>🌐 Access URLs</h2>
+            
+            <div class="url-box">
+                <strong>Kong Gateway (Proxy):</strong><br>
+                <code>http://89.167.90.116:8000/kurmi?apikey=kurmi-presales-2025</code>
+            </div>
+            
+            <div class="url-box">
+                <strong>Kong Admin API:</strong><br>
+                <code>http://89.167.90.116:8001/status</code>
+            </div>
+            
+            <div class="url-box">
+                <strong>Prometheus:</strong><br>
+                <code>http://89.167.90.116:9090</code>
+            </div>
+            
+            <div class="url-box">
+                <strong>Grafana Dashboard:</strong><br>
+                <code>http://89.167.90.116:3000</code><br>
+                <small>Login: admin / noaiwithoutapi</small>
+            </div>
+        </section>
+
+        <!-- Configuration -->
+        <section class="content-block">
+            <h2>⚙️ Configuration</h2>
+            
+            <h3>Service Details</h3>
+            <div class="code-block">
+                <code>
+Service: kurmi-api<br>
+Backend: https://mzn.kurmi-lab.com<br>
+Route: /kurmi<br>
+Protocol: HTTPS<br>
+Timeout: 60 seconds (connect/read/write)<br>
+Retries: 5
+                </code>
+            </div>
+            
+            <h3>Consumer & Credentials</h3>
+            <div class="code-block">
+                <code>
+Username: mohammed<br>
+Custom ID: mohammed-kurmi-presales<br>
+API Key: kurmi-presales-2025<br>
+Rate Limit: 5 requests/minute
+                </code>
+            </div>
+            
+            <h3>Plugins Enabled</h3>
+            <ul>
+                <li><strong>key-auth:</strong> Require API key authentication</li>
+                <li><strong>rate-limiting:</strong> 5 requests/min per consumer</li>
+                <li><strong>file-log:</strong> Log to /kong-logs/kong-requests.log</li>
+                <li><strong>prometheus:</strong> Expose metrics at /metrics (global)</li>
+            </ul>
+        </section>
+
+        <!-- Metrics Collected -->
+        <section class="content-block">
+            <h2>📊 Metrics Collected</h2>
+            
+            <h3>HTTP Request Metrics</h3>
+            <ul>
+                <li><code>kong_http_requests_total</code> - Total requests by service/route/status code/consumer</li>
+                <li><code>kong_nginx_requests_total</code> - Total NGINX-level requests</li>
+            </ul>
+            
+            <h3>Latency Metrics</h3>
+            <ul>
+                <li><code>kong_kong_latency_ms</code> - Latency added by Kong and plugins</li>
+                <li><code>kong_request_latency_ms</code> - Total request latency</li>
+                <li><code>kong_upstream_latency_ms</code> - Backend response time</li>
+            </ul>
+            
+            <h3>Bandwidth Metrics</h3>
+            <ul>
+                <li><code>kong_bandwidth_bytes{direction="ingress"}</code> - Data received from clients</li>
+                <li><code>kong_bandwidth_bytes{direction="egress"}</code> - Data sent to clients</li>
+            </ul>
+            
+            <h3>System Metrics</h3>
+            <ul>
+                <li><code>kong_datastore_reachable</code> - Database health (1 = healthy)</li>
+                <li><code>kong_memory_*</code> - Memory usage by component</li>
+                <li><code>kong_nginx_connections_*</code> - Connection pool stats</li>
+            </ul>
+        </section>
+
+        <!-- Deployment Details -->
+        <section class="content-block">
+            <h2>🚀 Deployment</h2>
+            
+            <h3>Server</h3>
+            <div class="code-block">
+                <code>
+IP: 89.167.90.116<br>
+OS: Debian 11 (bullseye)<br>
+Docker: 29.2.1<br>
+Docker Compose: 5.1.0
+                </code>
+            </div>
+            
+            <h3>Quick Commands</h3>
+            <div class="code-block">
+                <code>
+# Start all services<br>
+cd /root/.openclaw/workspace/kong-gateway-project<br>
+docker compose up -d<br>
+<br>
+# Check status<br>
+docker ps<br>
+curl http://localhost:8001/status<br>
+<br>
+# View logs<br>
+docker compose logs -f kong<br>
+tail -f logs/kong-requests.log<br>
+<br>
+# Restart services<br>
+docker compose restart<br>
+<br>
+# Stop all<br>
+docker compose down
+                </code>
+            </div>
+            
+            <h3>File Structure</h3>
+            <div class="code-block">
+                <code>
+kong-gateway-project/<br>
+├── docker-compose.yml          # Container orchestration<br>
+├── kong.yml                    # Declarative API config<br>
+├── prometheus.yml              # Metrics scraping config<br>
+├── logs/                       # Request logs directory<br>
+├── prometheus-data/            # Metrics storage<br>
+├── grafana-data/               # Dashboard storage<br>
+├── grafana-provisioning/       # Auto-configuration<br>
+│   ├── datasources/            # Prometheus connection<br>
+│   └── dashboards/             # Pre-loaded dashboards<br>
+└── *.md                        # Documentation
+                </code>
+            </div>
+        </section>
+
+        <!-- Testing -->
+        <section class="content-block">
+            <h2>🧪 Testing</h2>
+            
+            <h3>Test 1: Authentication</h3>
+            <div class="code-block">
+                <code>
+# Without API key (should fail with 401)<br>
+curl -i http://89.167.90.116:8000/kurmi<br>
+<br>
+# With API key (should work)<br>
+curl -i http://89.167.90.116:8000/kurmi?apikey=kurmi-presales-2025
+                </code>
+            </div>
+            
+            <h3>Test 2: Rate Limiting</h3>
+            <div class="code-block">
+                <code>
+# Send 6 requests quickly (6th should return 429)<br>
+for i in {1..6}; do<br>
+&nbsp;&nbsp;curl -s -o /dev/null -w "Request $i: HTTP %{http_code}\n" \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;http://89.167.90.116:8000/kurmi?apikey=kurmi-presales-2025<br>
+done
+                </code>
+            </div>
+            
+            <h3>Test 3: Monitoring</h3>
+            <div class="code-block">
+                <code>
+# Check Prometheus targets<br>
+curl http://89.167.90.116:9090/targets<br>
+<br>
+# Query total requests<br>
+curl 'http://89.167.90.116:9090/api/v1/query?query=sum(kong_http_requests_total)'<br>
+<br>
+# View Grafana dashboard<br>
+Open: http://89.167.90.116:3000/d/kong-simple/kong-simple-dashboard
+                </code>
+            </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section class="content-block">
+            <h2>💡 Use Cases</h2>
+            
+            <ul>
+                <li><strong>API Management:</strong> Centralized gateway for all microservices</li>
+                <li><strong>Security Layer:</strong> Add auth to services that lack it</li>
+                <li><strong>Rate Limiting:</strong> Protect backend from abuse</li>
+                <li><strong>Observability:</strong> Monitor API usage and performance</li>
+                <li><strong>SOAP Proxy:</strong> Modern API gateway for legacy SOAP services</li>
+                <li><strong>Multi-tenant:</strong> Separate API keys per customer/team</li>
+                <li><strong>Development:</strong> Test and validate API gateway patterns</li>
+            </ul>
+        </section>
+
+        <!-- Future Enhancements -->
+        <section class="content-block">
+            <h2>🔮 Future Enhancements</h2>
+            
+            <ul>
+                <li>Add SSL/TLS termination for HTTPS proxy</li>
+                <li>Configure upstream health checks</li>
+                <li>Add CORS plugin for browser clients</li>
+                <li>Implement OAuth 2.0 authentication</li>
+                <li>Set up request/response transformation</li>
+                <li>Add IP restriction plugin</li>
+                <li>Configure alerting in Prometheus/Grafana</li>
+                <li>Migrate to PostgreSQL for production (retain config history)</li>
+                <li>Add custom Kong plugins for business logic</li>
+                <li>Integrate with ELK stack for log aggregation</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Built with 🦾 by Claw & Mzn</p>
+            <p><a href="index.html" class="back-btn">← Back to Projects</a></p>
+        </footer>
+    </div>
+</body>
+</html>

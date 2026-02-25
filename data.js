@@ -2,25 +2,59 @@
 const projects = [
     {
         id: "kong-gateway",
-        name: "Kong Gateway Setup",
+        name: "Kong Gateway + Monitoring",
         emoji: "🐵",
-        description: "Docker environment for Kong API Gateway and Kong AI Gateway (open source). Complete setup for API management and AI gateway capabilities.",
-        status: "in-progress",
-        technologies: ["Docker", "Kong Gateway", "Kong AI Gateway", "API Management"],
-        links: [],
-        features: [
-            "Docker-based deployment",
-            "Kong API Gateway (open source)",
-            "Kong AI Gateway integration",
-            "API management and routing",
-            "AI service orchestration"
+        description: "Production-ready Kong Gateway OSS with Prometheus & Grafana monitoring. Complete API gateway with authentication, rate limiting, logging, and real-time metrics visualization.",
+        status: "complete",
+        technologies: ["Docker", "Kong Gateway 3.9", "Prometheus", "Grafana", "Docker Compose"],
+        links: [
+            {
+                label: "Documentation",
+                url: "kong-gateway.html",
+                type: "docs"
+            },
+            {
+                label: "Grafana Dashboard",
+                url: "http://89.167.90.116:3000",
+                type: "demo"
+            },
+            {
+                label: "Prometheus",
+                url: "http://89.167.90.116:9090",
+                type: "demo"
+            },
+            {
+                label: "Kong Admin",
+                url: "http://89.167.90.116:8001/status",
+                type: "demo"
+            }
         ],
-        deployment: [],
-        completedDate: null,
+        features: [
+            "Kong Gateway 3.9.1 in DB-less mode",
+            "API key authentication (key-auth plugin)",
+            "Rate limiting (5 req/min per consumer)",
+            "Request/response logging to file",
+            "Prometheus metrics export",
+            "Grafana dashboards (auto-refresh 5s)",
+            "Docker Compose orchestration",
+            "3 containers: Kong + Prometheus + Grafana",
+            "Pre-configured datasources & dashboards",
+            "HTTPS backend proxy support",
+            "Mobile-accessible monitoring"
+        ],
+        deployment: [
+            "Server: 89.167.90.116 (Debian 11)",
+            "Kong Proxy: Port 8000",
+            "Kong Admin: Port 8001",
+            "Prometheus: Port 9090",
+            "Grafana: Port 3000",
+            "Location: /root/.openclaw/workspace/kong-gateway-project"
+        ],
+        completedDate: "2026-02-25",
         details: {
-            challenge: "Need a robust API gateway solution with AI capabilities for managing and routing services.",
-            solution: "Setting up Kong Gateway with Docker for easy deployment and management.",
-            impact: "Centralized API management with AI gateway features."
+            challenge: "Need production-ready API gateway with authentication, rate limiting, and comprehensive monitoring for Kurmi SOAP API. Must be easy to deploy, manage, and monitor.",
+            solution: "Deployed Kong Gateway OSS with declarative configuration, integrated Prometheus for metrics collection, and Grafana for visualization. All containerized with Docker Compose for easy management.",
+            impact: "Complete API management solution with real-time monitoring. Track requests, status codes, latency, bandwidth. Prevent abuse with rate limiting. Secure with API key auth. Monitor everything via mobile-friendly dashboards."
         }
     },
     {
