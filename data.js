@@ -1,6 +1,29 @@
 // Project Data
 const projects = [
     {
+        id: "kong-gateway",
+        name: "Kong Gateway Setup",
+        emoji: "🐵",
+        description: "Docker environment for Kong API Gateway and Kong AI Gateway (open source). Complete setup for API management and AI gateway capabilities.",
+        status: "in-progress",
+        technologies: ["Docker", "Kong Gateway", "Kong AI Gateway", "API Management"],
+        links: [],
+        features: [
+            "Docker-based deployment",
+            "Kong API Gateway (open source)",
+            "Kong AI Gateway integration",
+            "API management and routing",
+            "AI service orchestration"
+        ],
+        deployment: [],
+        completedDate: null,
+        details: {
+            challenge: "Need a robust API gateway solution with AI capabilities for managing and routing services.",
+            solution: "Setting up Kong Gateway with Docker for easy deployment and management.",
+            impact: "Centralized API management with AI gateway features."
+        }
+    },
+    {
         id: "quran-player",
         name: "Quran Player",
         nameArabic: "مشغل القرآن الكريم",
