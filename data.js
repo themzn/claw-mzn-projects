@@ -14,6 +14,11 @@ const projects = [
                 type: "docs"
             },
             {
+                label: "GitHub",
+                url: "https://github.com/themzn/kong-gateway-config",
+                type: "repo"
+            },
+            {
                 label: "Grafana Dashboard",
                 url: "http://89.167.90.116:3000",
                 type: "demo"
@@ -31,6 +36,7 @@ const projects = [
         ],
         features: [
             "Kong Gateway 3.9.1 in DB-less mode",
+            "Kurmi SOAP API integration (REST → SOAP transformation)",
             "API key authentication (key-auth plugin)",
             "Rate limiting (5 req/min per consumer)",
             "Request/response logging to file",
@@ -40,7 +46,8 @@ const projects = [
             "3 containers: Kong + Prometheus + Grafana",
             "Pre-configured datasources & dashboards",
             "HTTPS backend proxy support",
-            "Mobile-accessible monitoring"
+            "Mobile-accessible monitoring",
+            "One-command deployment via GitHub repo"
         ],
         deployment: [
             "Server: 89.167.90.116 (Debian 11)",
