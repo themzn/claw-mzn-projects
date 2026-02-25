@@ -294,6 +294,17 @@
             <h2>✨ Key Features</h2>
             
             <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--success);">
+                    <h4 style="margin: 0 0 0.5rem 0;">🔗 Kurmi SOAP Integration</h4>
+                    <p>Automatic REST → SOAP transformation</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>Simple GET returns version</li>
+                        <li>Credentials injected automatically</li>
+                        <li>Full SOAP envelope generation</li>
+                        <li>Client-side simplicity</li>
+                    </ul>
+                </div>
+                
                 <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px;">
                     <h4 style="margin: 0 0 0.5rem 0;">🔐 Authentication</h4>
                     <p>API key-based authentication with consumer tracking</p>
@@ -363,8 +374,9 @@
             <h2>🌐 Access URLs</h2>
             
             <div class="url-box">
-                <strong>Kong Gateway (Proxy):</strong><br>
-                <code>http://89.167.90.116:8000/kurmi?apikey=kurmi-presales-2025</code>
+                <strong>Kurmi Version API (SOAP Integration):</strong><br>
+                <code>http://89.167.90.116:8000/kurmi/version?apikey=kurmi-presales-2025</code><br>
+                <small>Returns: &lt;kurmiVersion&gt;8.1.0.01&lt;/kurmiVersion&gt;</small>
             </div>
             
             <div class="url-box">
@@ -450,6 +462,100 @@ Rate Limit: 5 requests/minute
             </ul>
         </section>
 
+        <!-- Kurmi SOAP Integration -->
+        <section class="content-block">
+            <h2>🔗 Kurmi SOAP Integration</h2>
+            
+            <p>Kong Gateway successfully bridges REST API clients with Kurmi's legacy SOAP backend through automatic request transformation and credential injection.</p>
+            
+            <h3>How It Works</h3>
+            <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+                <strong>Client Request (Simple REST):</strong>
+                <div class="code-block" style="margin-top: 0.5rem;">
+                    <code>
+GET http://89.167.90.116:8000/kurmi/version?apikey=kurmi-presales-2025
+                    </code>
+                </div>
+                
+                <div style="text-align: center; margin: 1rem 0; font-size: 1.5rem; color: var(--accent);">↓</div>
+                
+                <strong>Kong Transformation (Automatic):</strong>
+                <ul style="margin: 0.5rem 0;">
+                    <li>✅ Validates API key authentication</li>
+                    <li>✅ Checks rate limit (5/min)</li>
+                    <li>✅ Transforms GET → POST</li>
+                    <li>✅ Injects full SOAP XML envelope</li>
+                    <li>✅ Adds Kurmi credentials (clawclaw/noaiwithoutapi)</li>
+                    <li>✅ Sets proper headers (Content-Type, SOAPAction)</li>
+                </ul>
+                
+                <div style="text-align: center; margin: 1rem 0; font-size: 1.5rem; color: var(--accent);">↓</div>
+                
+                <strong>Backend Request (SOAP):</strong>
+                <div class="code-block" style="margin-top: 0.5rem;">
+                    <code>
+POST https://mzn.kurmi-lab.com:443/Kurmi/APIService<br>
+Content-Type: text/xml; charset=utf-8<br>
+SOAPAction: GET_KURMI_VERSION<br>
+<br>
+&lt;soapenv:Envelope xmlns:soapenv="..." xmlns:ns="..."&gt;<br>
+&nbsp;&nbsp;&lt;soapenv:Body&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;ns:GET_KURMI_VERSION_QUERY_TYPE&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;auth&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;login&gt;clawclaw&lt;/login&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;password&gt;noaiwithoutapi&lt;/password&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/auth&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ns:GET_KURMI_VERSION_QUERY_TYPE&gt;<br>
+&nbsp;&nbsp;&lt;/soapenv:Body&gt;<br>
+&lt;/soapenv:Envelope&gt;
+                    </code>
+                </div>
+                
+                <div style="text-align: center; margin: 1rem 0; font-size: 1.5rem; color: var(--accent);">↓</div>
+                
+                <strong>Response (XML):</strong>
+                <div class="code-block" style="margin-top: 0.5rem;">
+                    <code>
+&lt;status&gt;SUCCESS&lt;/status&gt;<br>
+&lt;kurmiVersion&gt;8.1.0.01&lt;/kurmiVersion&gt;
+                    </code>
+                </div>
+            </div>
+            
+            <h3>Active Endpoint</h3>
+            <div class="url-box">
+                <strong>Kurmi Version:</strong><br>
+                <code>http://89.167.90.116:8000/kurmi/version?apikey=kurmi-presales-2025</code><br>
+                <small>Returns: Kurmi version 8.1.0.01</small>
+            </div>
+            
+            <h3>Security Model</h3>
+            <ul>
+                <li><strong>Client Authentication:</strong> API key only (<code>kurmi-presales-2025</code>)</li>
+                <li><strong>Backend Authentication:</strong> SOAP credentials injected automatically by Kong</li>
+                <li><strong>Credential Isolation:</strong> Client never sees or needs Kurmi username/password</li>
+                <li><strong>Rate Protection:</strong> 5 requests/minute prevents backend abuse</li>
+            </ul>
+            
+            <h3>Technical Implementation</h3>
+            <ul>
+                <li><strong>Plugin:</strong> pre-function (Lua script)</li>
+                <li><strong>Route:</strong> <code>/kurmi/version</code> (accepts GET/POST)</li>
+                <li><strong>Service:</strong> <code>https://mzn.kurmi-lab.com:443/Kurmi/APIService</code></li>
+                <li><strong>Transformation:</strong> Dynamic SOAP envelope generation with embedded credentials</li>
+                <li><strong>Headers:</strong> Content-Type, SOAPAction, Content-Length auto-set</li>
+            </ul>
+            
+            <h3>Extensibility</h3>
+            <p>This pattern can be replicated for other Kurmi SOAP operations:</p>
+            <ul>
+                <li><code>/kurmi/customer/:id</code> → GET_CUSTOMER_INFO</li>
+                <li><code>/kurmi/order</code> → CREATE_ORDER</li>
+                <li><code>/kurmi/profile</code> → UPDATE_PROFILE</li>
+            </ul>
+            <p>Each endpoint would follow the same architecture: simple REST input → automatic SOAP transformation → credential injection.</p>
+        </section>
+
         <!-- Deployment Details -->
         <section class="content-block">
             <h2>🚀 Deployment</h2>
@@ -509,29 +615,43 @@ kong-gateway-project/<br>
         <section class="content-block">
             <h2>🧪 Testing</h2>
             
-            <h3>Test 1: Authentication</h3>
+            <h3>Test 1: Kurmi Version API (SOAP Integration)</h3>
             <div class="code-block">
                 <code>
-# Without API key (should fail with 401)<br>
-curl -i http://89.167.90.116:8000/kurmi<br>
+# Get Kurmi version via Kong gateway<br>
+curl http://89.167.90.116:8000/kurmi/version?apikey=kurmi-presales-2025<br>
 <br>
-# With API key (should work)<br>
-curl -i http://89.167.90.116:8000/kurmi?apikey=kurmi-presales-2025
+# Expected response:<br>
+# &lt;kurmiVersion&gt;8.1.0.01&lt;/kurmiVersion&gt;<br>
+<br>
+# Full XML response:<br>
+curl -s http://89.167.90.116:8000/kurmi/version?apikey=kurmi-presales-2025 | grep kurmiVersion
                 </code>
             </div>
             
-            <h3>Test 2: Rate Limiting</h3>
+            <h3>Test 2: Authentication</h3>
+            <div class="code-block">
+                <code>
+# Without API key (should fail with 401)<br>
+curl -i http://89.167.90.116:8000/kurmi/version<br>
+<br>
+# With API key (should succeed)<br>
+curl -i http://89.167.90.116:8000/kurmi/version?apikey=kurmi-presales-2025
+                </code>
+            </div>
+            
+            <h3>Test 3: Rate Limiting</h3>
             <div class="code-block">
                 <code>
 # Send 6 requests quickly (6th should return 429)<br>
 for i in {1..6}; do<br>
 &nbsp;&nbsp;curl -s -o /dev/null -w "Request $i: HTTP %{http_code}\n" \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;http://89.167.90.116:8000/kurmi?apikey=kurmi-presales-2025<br>
+&nbsp;&nbsp;&nbsp;&nbsp;http://89.167.90.116:8000/kurmi/version?apikey=kurmi-presales-2025<br>
 done
                 </code>
             </div>
             
-            <h3>Test 3: Monitoring</h3>
+            <h3>Test 4: Monitoring</h3>
             <div class="code-block">
                 <code>
 # Check Prometheus targets<br>
@@ -551,13 +671,15 @@ Open: http://89.167.90.116:3000/d/kong-simple/kong-simple-dashboard
             <h2>💡 Use Cases</h2>
             
             <ul>
-                <li><strong>API Management:</strong> Centralized gateway for all microservices</li>
-                <li><strong>Security Layer:</strong> Add auth to services that lack it</li>
-                <li><strong>Rate Limiting:</strong> Protect backend from abuse</li>
-                <li><strong>Observability:</strong> Monitor API usage and performance</li>
-                <li><strong>SOAP Proxy:</strong> Modern API gateway for legacy SOAP services</li>
-                <li><strong>Multi-tenant:</strong> Separate API keys per customer/team</li>
-                <li><strong>Development:</strong> Test and validate API gateway patterns</li>
+                <li><strong>Kurmi SOAP Integration:</strong> Transform simple REST calls into complex SOAP requests with automatic credential injection. Example: <code>/kurmi/version</code> returns Kurmi version 8.1.0.01 without client knowing SOAP details</li>
+                <li><strong>API Management:</strong> Centralized gateway for all microservices and legacy systems</li>
+                <li><strong>Security Translation:</strong> Client uses API key, Kong handles backend username/password authentication</li>
+                <li><strong>Rate Limiting:</strong> Protect Kurmi backend from abuse (5 requests/minute per consumer)</li>
+                <li><strong>Observability:</strong> Monitor SOAP API usage, latency, and success rates in real-time</li>
+                <li><strong>SOAP Modernization:</strong> Expose legacy SOAP services as modern REST APIs</li>
+                <li><strong>Multi-tenant:</strong> Separate API keys per customer/team accessing same backend</li>
+                <li><strong>Request Transformation:</strong> Inject dynamic credentials, headers, and XML bodies automatically</li>
+                <li><strong>Development & Testing:</strong> Test SOAP integrations without managing credentials</li>
             </ul>
         </section>
 
