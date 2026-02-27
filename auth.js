@@ -2,7 +2,7 @@
 // Password: 010203 (SHA-256 hash stored)
 
 (function() {
-    const CORRECT_HASH = 'b9c4873f2f5e8b2e7c8e9f5a9d2c4e7f1a3b5c8d9e0f2a4b6c8d0e2f4a6b8c0'; // SHA-256 of "010203"
+    const CORRECT_HASH = 'b79ea17b7c5ca8fe9cccd8cdba6e8f8ed0b3c948f9f709ed0f47d2fd47fcba82'; // SHA-256 of "010203"
     
     // Check if already authenticated
     if (sessionStorage.getItem('auth') === CORRECT_HASH) {
