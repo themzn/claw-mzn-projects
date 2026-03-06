@@ -117,6 +117,11 @@ const projects = [
         technologies: ["Next.js 15", "TypeScript", "Node.js", "Express", "PostgreSQL", "SOAP", "shadcn/ui", "Redis"],
         links: [
             {
+                label: "Documentation",
+                url: "flow-dashboard.html",
+                type: "docs"
+            },
+            {
                 label: "GitHub",
                 url: "https://github.com/themzn/flow-ticket-dashboard",
                 type: "repo"
