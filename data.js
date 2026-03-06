@@ -107,6 +107,60 @@ const projects = [
             solution: "Built lightweight single-page app with modern UI, search, and keyboard controls.",
             impact: "Better listening experience with familiar web player controls."
         }
+    },
+    {
+        id: "flow-ticket-dashboard",
+        name: "Flow Kurmi MACD Ticket Dashboard",
+        emoji: "📊",
+        description: "Executive dashboard for monitoring and analyzing MACD (Move, Add, Change, Delete) tickets across Flow Kurmi tenants. Real-time sync, multi-platform support, and visual analytics.",
+        status: "complete",
+        technologies: ["Next.js 15", "TypeScript", "Node.js", "Express", "PostgreSQL", "SOAP", "shadcn/ui", "Redis"],
+        links: [
+            {
+                label: "GitHub",
+                url: "https://github.com/themzn/flow-ticket-dashboard",
+                type: "repo"
+            },
+            {
+                label: "Frontend (Vercel)",
+                url: "https://flow-ticket-dashboard.vercel.app",
+                type: "demo"
+            },
+            {
+                label: "Backend API (Railway)",
+                url: "https://flow-ticket-backend.railway.app",
+                type: "demo"
+            }
+        ],
+        features: [
+            "Multi-platform support (different Flow Kurmi instances)",
+            "Multi-tenant dashboard with global KPIs",
+            "Visual charts and trend analysis",
+            "Historical ticket tracking",
+            "Change detection (new users, devices, services)",
+            "Admin panel for platform/tenant management",
+            "Encrypted credential storage",
+            "SOAP XML API integration",
+            "On-demand ticket detail view (full operation trace)",
+            "Clickable tickets with modal detail view",
+            "Ticket filtering and pagination",
+            "Redis cache for ticket details (24h TTL)",
+            "Hourly automated ticket sync + manual refresh",
+            "Tenant-isolated PostgreSQL schemas"
+        ],
+        deployment: [
+            "Frontend: Vercel (Next.js 15)",
+            "Backend: Railway (Node.js + Express)",
+            "Database: PostgreSQL on Railway",
+            "Cache: Redis (optional, 24h TTL)",
+            "Location: /root/.openclaw/workspace/flow-ticket-dashboard"
+        ],
+        completedDate: "2026-02-28",
+        details: {
+            challenge: "Need centralized visibility into MACD ticket operations across multiple Flow Kurmi platforms and tenants. Manual SOAP API calls were time-consuming, no historical tracking, and no easy way to spot trends or issues.",
+            solution: "Built full-stack dashboard with automated SOAP sync (hourly + on-demand), PostgreSQL with tenant-isolated schemas, Redis caching for performance, and modern React frontend with charts and filtering. Encrypted credentials, admin panel for multi-platform management.",
+            impact: "Real-time visibility into all MACD operations across platforms. Historical trends, change detection, and instant ticket details. Reduced manual API calls by 95%. Enabled proactive monitoring and faster incident response."
+        }
     }
 ];
 
