@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Kurmi MACD Ticket Dashboard - MZN Projects</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .architecture-diagram {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+        
+        .flow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            min-width: fit-content;
+        }
+        
+        .flow-box {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            min-width: 150px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .flow-box h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .flow-box p {
+            margin: 0;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .flow-arrow {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+        
+        .stack-diagram {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stack-layer {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        .stack-layer h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--accent);
+        }
+        
+        .stack-layer ul {
+            margin: 0.5rem 0 0 0;
+            padding-left: 1.5rem;
+        }
+        
+        .metric-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .metric-card {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 0.5rem 0;
+        }
+        
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .code-block {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        
+        .url-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--success);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .url-box strong {
+            color: var(--success);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        
+        .page-header h1 {
+            margin: 0 0 0.75rem 0;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .page-header .subtitle {
+            font-size: 1.15rem;
+            opacity: 0.95;
+            margin: 0;
+        }
+        
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .schema-diagram {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .schema-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent);
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        .schema-box h5 {
+            margin: 0 0 0.5rem 0;
+            color: var(--accent);
+        }
+
+        .schema-field {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            padding: 0.25rem 0;
+            border-left: 2px solid var(--accent);
+            padding-left: 0.5rem;
+            margin: 0.25rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>📊 Flow Kurmi MACD Ticket Dashboard</h1>
+            <p class="subtitle">Executive Dashboard for Multi-Platform Ticket Monitoring & Analytics</p>
+            <div class="badge-container">
+                <span class="badge">🔄 Auto-Sync</span>
+                <span class="badge">🏢 Multi-Tenant</span>
+                <span class="badge">📈 Historical Trends</span>
+                <span class="badge">⚡ Redis Cache</span>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-btn">← Back to Projects</a>
+
+        <!-- Overview -->
+        <section class="content-block">
+            <h2>📋 Project Overview</h2>
+            <p>Full-stack executive dashboard for monitoring and analyzing MACD (Move, Add, Change, Delete) tickets across multiple Flow Kurmi platforms and tenants. Real-time synchronization, visual analytics, and on-demand ticket details with encrypted credential storage.</p>
+            
+            <div class="metric-cards">
+                <div class="metric-card">
+                    <div class="metric-label">Status</div>
+                    <div class="metric-value">✅ Complete</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Deployment</div>
+                    <div class="metric-value">Vercel + Railway</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Database</div>
+                    <div class="metric-value">PostgreSQL</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Sync</div>
+                    <div class="metric-value">Hourly + Manual</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Diagram -->
+        <section class="content-block">
+            <h2>🏗️ System Architecture</h2>
+            
+            <div class="architecture-diagram">
+                <h3 style="text-align: center; margin-bottom: 1.5rem;">Data Flow</h3>
+                <div class="flow-container">
+                    <div class="flow-box">
+                        <h4>👤 User</h4>
+                        <p>Browser/Mobile</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">Access dashboard</p>
+                    </div>
+                    
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <h4>⚡ Next.js Frontend</h4>
+                        <p>Vercel</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">
+                            React UI<br>
+                            shadcn/ui<br>
+                            Charts
+                        </p>
+                    </div>
+                    
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <h4>🚂 Node.js API</h4>
+                        <p>Railway</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">
+                            Express<br>
+                            SOAP Client<br>
+                            Redis Cache
+                        </p>
+                    </div>
+                    
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <h4>🗄️ PostgreSQL</h4>
+                        <p>Railway</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">Multi-tenant schemas</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 2rem 0; font-size: 1.5rem; color: var(--accent);">↓</div>
+                
+                <h3 style="text-align: center; margin-bottom: 1.5rem;">Sync Flow</h3>
+                <div class="flow-container">
+                    <div class="flow-box">
+                        <h4>⏰ Cron Job</h4>
+                        <p>Hourly Trigger</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">Automated sync</p>
+                    </div>
+                    
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <h4>🧼 SOAP API</h4>
+                        <p>Flow Kurmi</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">
+                            GetMACDTickets<br>
+                            GetTicketDetails
+                        </p>
+                    </div>
+                    
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <h4>💾 Store Tickets</h4>
+                        <p>PostgreSQL</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">
+                            Tenant schemas<br>
+                            Historical data
+                        </p>
+                    </div>
+                    
+                    <div class="flow-arrow">→</div>
+                    
+                    <div class="flow-box">
+                        <h4>🚀 Redis Cache</h4>
+                        <p>24h TTL</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.75rem;">Fast ticket details</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Stack -->
+        <section class="content-block">
+            <h2>🔧 Technical Stack</h2>
+            
+            <div class="stack-diagram">
+                <div class="stack-layer">
+                    <h4>⚛️ Frontend Layer (Vercel)</h4>
+                    <ul>
+                        <li><strong>Next.js 15:</strong> React framework with App Router</li>
+                        <li><strong>TypeScript:</strong> Type-safe development</li>
+                        <li><strong>shadcn/ui:</strong> Modern component library</li>
+                        <li><strong>Recharts:</strong> Visual analytics and charts</li>
+                        <li><strong>Tailwind CSS:</strong> Utility-first styling</li>
+                    </ul>
+                </div>
+                
+                <div class="stack-layer">
+                    <h4>🚂 Backend Layer (Railway)</h4>
+                    <ul>
+                        <li><strong>Node.js + Express:</strong> REST API server</li>
+                        <li><strong>SOAP Client:</strong> Flow Kurmi integration</li>
+                        <li><strong>node-cron:</strong> Automated hourly sync</li>
+                        <li><strong>AES-256-CBC:</strong> Credential encryption</li>
+                    </ul>
+                </div>
+                
+                <div class="stack-layer">
+                    <h4>🗄️ Data Layer (Railway)</h4>
+                    <ul>
+                        <li><strong>PostgreSQL 14+:</strong> Relational database</li>
+                        <li><strong>Tenant Schemas:</strong> Isolated data per tenant</li>
+                        <li><strong>node-postgres (pg):</strong> Database driver</li>
+                        <li><strong>Redis (Optional):</strong> Ticket detail cache (24h TTL)</li>
+                    </ul>
+                </div>
+                
+                <div class="stack-layer">
+                    <h4>🔌 Integration Layer</h4>
+                    <ul>
+                        <li><strong>Flow Kurmi SOAP API:</strong> GetMACDTickets, GetTicketDetails</li>
+                        <li><strong>XML Parsing:</strong> xml2js for SOAP response handling</li>
+                        <li><strong>Encrypted Storage:</strong> Platform credentials secured</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="content-block">
+            <h2>✨ Key Features</h2>
+            
+            <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #667eea;">🏢 Multi-Platform Support</h4>
+                    <p>Manage multiple Flow Kurmi instances from one dashboard</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>Add platforms with SOAP URL</li>
+                        <li>Encrypted credentials</li>
+                        <li>Independent configuration</li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #764ba2;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #764ba2;">🏘️ Multi-Tenant Dashboard</h4>
+                    <p>Isolated tenant data with global KPIs</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>Per-tenant PostgreSQL schemas</li>
+                        <li>Cross-tenant analytics</li>
+                        <li>Global + tenant views</li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #f59e0b;">📊 Visual Analytics</h4>
+                    <p>Charts and trend analysis</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>Status distribution pie charts</li>
+                        <li>Historical ticket trends</li>
+                        <li>Change detection graphs</li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #10b981;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #10b981;">🔄 Automated Sync</h4>
+                    <p>Hourly + manual refresh</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>Cron job every hour</li>
+                        <li>On-demand manual sync</li>
+                        <li>Last sync timestamp</li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ef4444;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #ef4444;">🎯 On-Demand Details</h4>
+                    <p>Click any ticket for full trace</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>SOAP GetTicketDetails call</li>
+                        <li>Modal view with operations</li>
+                        <li>Redis 24h cache</li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #3b82f6;">🔍 Search & Filter</h4>
+                    <p>Advanced ticket filtering</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>Filter by status</li>
+                        <li>Search ticket ID</li>
+                        <li>Pagination support</li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #8b5cf6;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #8b5cf6;">🔐 Encrypted Storage</h4>
+                    <p>AES-256-CBC credential protection</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>Platform credentials encrypted</li>
+                        <li>32-char encryption key</li>
+                        <li>Secure admin panel</li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ec4899;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #ec4899;">📈 Change Detection</h4>
+                    <p>Track new users, devices, services</p>
+                    <ul style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <li>New user tracking</li>
+                        <li>Device provisioning</li>
+                        <li>Service changes</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Database Schema -->
+        <section class="content-block">
+            <h2>🗄️ Database Schema</h2>
+            
+            <div class="schema-diagram">
+                <h3>Global Tables (Public Schema)</h3>
+                
+                <div class="schema-box">
+                    <h5>📦 platforms</h5>
+                    <div class="schema-field">id UUID PRIMARY KEY</div>
+                    <div class="schema-field">name TEXT NOT NULL</div>
+                    <div class="schema-field">soap_url TEXT NOT NULL</div>
+                    <div class="schema-field">admin_username TEXT NOT NULL</div>
+                    <div class="schema-field">admin_password_encrypted TEXT</div>
+                    <div class="schema-field">created_at TIMESTAMPTZ DEFAULT NOW()</div>
+                </div>
+                
+                <div class="schema-box">
+                    <h5>🏢 tenants</h5>
+                    <div class="schema-field">id UUID PRIMARY KEY</div>
+                    <div class="schema-field">platform_id UUID REFERENCES platforms(id)</div>
+                    <div class="schema-field">name TEXT NOT NULL</div>
+                    <div class="schema-field">db_id TEXT NOT NULL</div>
+                    <div class="schema-field">schema_name TEXT NOT NULL</div>
+                    <div class="schema-field">created_at TIMESTAMPTZ DEFAULT NOW()</div>
+                </div>
+            </div>
+            
+            <div class="schema-diagram">
+                <h3>Per-Tenant Tables (Isolated Schemas)</h3>
+                <p style="margin-bottom: 1rem;"><em>Each tenant gets: tenant_{slug}.tickets, tenant_{slug}.devices, tenant_{slug}.users</em></p>
+                
+                <div class="schema-box">
+                    <h5>🎫 tickets</h5>
+                    <div class="schema-field">id SERIAL PRIMARY KEY</div>
+                    <div class="schema-field">ticket_id TEXT UNIQUE NOT NULL</div>
+                    <div class="schema-field">status TEXT</div>
+                    <div class="schema-field">type TEXT</div>
+                    <div class="schema-field">creation_date TIMESTAMPTZ</div>
+                    <div class="schema-field">last_update TIMESTAMPTZ</div>
+                    <div class="schema-field">created_at TIMESTAMPTZ DEFAULT NOW()</div>
+                    <div class="schema-field">updated_at TIMESTAMPTZ DEFAULT NOW()</div>
+                </div>
+                
+                <div class="schema-box">
+                    <h5>📱 devices</h5>
+                    <div class="schema-field">id SERIAL PRIMARY KEY</div>
+                    <div class="schema-field">device_id TEXT UNIQUE NOT NULL</div>
+                    <div class="schema-field">type TEXT</div>
+                    <div class="schema-field">first_seen TIMESTAMPTZ DEFAULT NOW()</div>
+                </div>
+                
+                <div class="schema-box">
+                    <h5>👤 users</h5>
+                    <div class="schema-field">id SERIAL PRIMARY KEY</div>
+                    <div class="schema-field">user_id TEXT UNIQUE NOT NULL</div>
+                    <div class="schema-field">email TEXT</div>
+                    <div class="schema-field">first_seen TIMESTAMPTZ DEFAULT NOW()</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Endpoints -->
+        <section class="content-block">
+            <h2>🔌 API Endpoints</h2>
+            
+            <h3>Platform Management</h3>
+            <div class="code-block">
+                <code>
+POST   /api/admin/platforms          # Add new platform<br>
+GET    /api/admin/platforms          # List all platforms<br>
+PUT    /api/admin/platforms/:id      # Update platform<br>
+DELETE /api/admin/platforms/:id      # Remove platform
+                </code>
+            </div>
+            
+            <h3>Tenant Management</h3>
+            <div class="code-block">
+                <code>
+POST   /api/admin/tenants                  # Add tenant<br>
+GET    /api/admin/platforms/:id/tenants    # List tenants<br>
+DELETE /api/admin/tenants/:id              # Remove tenant
+                </code>
+            </div>
+            
+            <h3>Dashboard & Tickets</h3>
+            <div class="code-block">
+                <code>
+GET    /api/dashboard/global               # Global KPIs<br>
+GET    /api/dashboard/:tenantId            # Tenant dashboard<br>
+POST   /api/sync/:tenantId                 # Manual sync<br>
+GET    /api/tickets/:tenantId              # List tickets (filters, pagination)<br>
+GET    /api/tickets/:tenantId/:ticketId    # Ticket details (SOAP + cache)
+                </code>
+            </div>
+        </section>
+
+        <!-- Redis Caching -->
+        <section class="content-block">
+            <h2>🚀 Redis Caching Strategy</h2>
+            
+            <p>Ticket details are cached for 24 hours to minimize SOAP API calls and improve performance.</p>
+            
+            <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+                <h4>Cache Flow</h4>
+                <ol style="margin-top: 0.5rem;">
+                    <li><strong>First Request:</strong> Check Redis cache for <code>ticket:{tenantId}:{ticketId}</code></li>
+                    <li><strong>Cache Miss:</strong> Call Flow Kurmi SOAP API (GetTicketDetails)</li>
+                    <li><strong>Store Result:</strong> Save to Redis with 24h TTL</li>
+                    <li><strong>Subsequent Requests:</strong> Return from cache (fast, no SOAP call)</li>
+                    <li><strong>After Sync:</strong> Clear cache for that tenant (fresh data)</li>
+                </ol>
+            </div>
+            
+            <h3>Configuration</h3>
+            <div class="code-block">
+                <code>
+# .env (Backend)<br>
+REDIS_URL=redis://localhost:6379<br>
+<br>
+# If not set, app works without caching (all requests hit SOAP)
+                </code>
+            </div>
+            
+            <h3>Cache Keys</h3>
+            <div class="code-block">
+                <code>
+ticket:{tenantId}:{ticketId}     # Ticket detail cache<br>
+TTL: 86400 seconds (24 hours)
+                </code>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                <h4 style="margin: 0 0 0.5rem 0;">💡 Performance Impact</h4>
+                <p style="margin: 0;">With Redis: ~50ms response time (cache hit)<br>
+                Without Redis: ~2-5s response time (SOAP call)</p>
+            </div>
+        </section>
+
+        <!-- Access URLs -->
+        <section class="content-block">
+            <h2>🌐 Access URLs</h2>
+            
+            <div class="url-box">
+                <strong>Frontend (Vercel):</strong><br>
+                <code>https://flow-ticket-dashboard.vercel.app</code>
+            </div>
+            
+            <div class="url-box">
+                <strong>Backend API (Railway):</strong><br>
+                <code>https://flow-ticket-backend.railway.app</code>
+            </div>
+            
+            <div class="url-box">
+                <strong>GitHub Repository:</strong><br>
+                <code>https://github.com/themzn/flow-ticket-dashboard</code>
+            </div>
+        </section>
+
+        <!-- Deployment -->
+        <section class="content-block">
+            <h2>🚀 Deployment</h2>
+            
+            <h3>Frontend (Vercel)</h3>
+            <div class="code-block">
+                <code>
+# Import from GitHub<br>
+Repository: themzn/flow-ticket-dashboard<br>
+Root Directory: frontend/<br>
+Framework: Next.js 15<br>
+Build Command: npm run build<br>
+Output: .next<br>
+<br>
+# Environment Variables<br>
+NEXT_PUBLIC_API_URL=https://flow-ticket-backend.railway.app
+                </code>
+            </div>
+            
+            <h3>Backend (Railway)</h3>
+            <div class="code-block">
+                <code>
+# Add Node.js service<br>
+Repository: themzn/flow-ticket-dashboard<br>
+Root Directory: backend/<br>
+Start Command: npm start<br>
+<br>
+# Environment Variables<br>
+DATABASE_URL=postgresql://user:pass@host:5432/dbname<br>
+ENCRYPTION_KEY=your-32-char-encryption-key<br>
+PORT=3001<br>
+NODE_ENV=production<br>
+REDIS_URL=redis://localhost:6379  # Optional
+                </code>
+            </div>
+            
+            <h3>Database (Railway PostgreSQL)</h3>
+            <div class="code-block">
+                <code>
+# Create PostgreSQL service<br>
+Version: 14+<br>
+<br>
+# Run migrations<br>
+cd backend<br>
+npm run migrate
+                </code>
+            </div>
+            
+            <h3>Local Development</h3>
+            <div class="code-block">
+                <code>
+# Clone repository<br>
+git clone https://github.com/themzn/flow-ticket-dashboard.git<br>
+cd flow-ticket-dashboard<br>
+<br>
+# Backend setup<br>
+cd backend<br>
+npm install<br>
+cp .env.example .env<br>
+# Edit .env with your DATABASE_URL and ENCRYPTION_KEY<br>
+npm run migrate<br>
+npm run dev<br>
+<br>
+# Frontend setup (new terminal)<br>
+cd frontend<br>
+npm install<br>
+cp .env.example .env.local<br>
+# Edit .env.local with NEXT_PUBLIC_API_URL<br>
+npm run dev<br>
+<br>
+# Visit http://localhost:3000
+                </code>
+            </div>
+        </section>
+
+        <!-- Testing -->
+        <section class="content-block">
+            <h2>🧪 Testing</h2>
+            
+            <h3>Test 1: Health Check</h3>
+            <div class="code-block">
+                <code>
+# Backend health<br>
+curl https://flow-ticket-backend.railway.app/health<br>
+<br>
+# Expected: {"status": "ok", "database": "connected"}
+                </code>
+            </div>
+            
+            <h3>Test 2: Platform Management</h3>
+            <div class="code-block">
+                <code>
+# Add platform<br>
+curl -X POST https://flow-ticket-backend.railway.app/api/admin/platforms \<br>
+  -H "Content-Type: application/json" \<br>
+  -d '{<br>
+    "name": "Flow Production",<br>
+    "soap_url": "https://flow.example.com/soap",<br>
+    "admin_username": "admin",<br>
+    "admin_password": "password"<br>
+  }'<br>
+<br>
+# List platforms<br>
+curl https://flow-ticket-backend.railway.app/api/admin/platforms
+                </code>
+            </div>
+            
+            <h3>Test 3: Ticket Sync</h3>
+            <div class="code-block">
+                <code>
+# Manual sync (replace {tenantId} with actual ID)<br>
+curl -X POST https://flow-ticket-backend.railway.app/api/sync/{tenantId}<br>
+<br>
+# Check sync status<br>
+curl https://flow-ticket-backend.railway.app/api/dashboard/{tenantId}
+                </code>
+            </div>
+            
+            <h3>Test 4: Redis Cache</h3>
+            <div class="code-block">
+                <code>
+# Backend only (if REDIS_URL is set)<br>
+cd backend<br>
+REDIS_URL=redis://localhost:6379 npm run test:cache<br>
+<br>
+# Expected output:<br>
+# ✅ Test 1: Cache miss<br>
+# ✅ Test 2: Cache set<br>
+# ✅ Test 3: Cache hit<br>
+# ✅ Test 4: Clear tenant cache
+                </code>
+            </div>
+        </section>
+
+        <!-- SOAP Integration -->
+        <section class="content-block">
+            <h2>🧼 SOAP Integration</h2>
+            
+            <p>The dashboard integrates with Flow Kurmi's SOAP API for ticket data synchronization and on-demand details.</p>
+            
+            <h3>SOAP Operations</h3>
+            
+            <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent);">📋 GetMACDTickets</h4>
+                <p><strong>Purpose:</strong> Fetch all MACD tickets for a tenant</p>
+                <p><strong>Frequency:</strong> Hourly cron + manual sync</p>
+                <p><strong>Returns:</strong> Ticket ID, status, type, dates</p>
+                <div class="code-block" style="margin-top: 0.5rem;">
+                    <code>
+&lt;soapenv:Envelope&gt;<br>
+&nbsp;&nbsp;&lt;soapenv:Body&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;GetMACDTickets&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tenantId&gt;{dbId}&lt;/tenantId&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/GetMACDTickets&gt;<br>
+&nbsp;&nbsp;&lt;/soapenv:Body&gt;<br>
+&lt;/soapenv:Envelope&gt;
+                    </code>
+                </div>
+            </div>
+            
+            <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent);">🔍 GetTicketDetails</h4>
+                <p><strong>Purpose:</strong> Fetch full operation trace for a ticket</p>
+                <p><strong>Frequency:</strong> On-demand (user clicks ticket)</p>
+                <p><strong>Returns:</strong> Operations, users, devices, services, history</p>
+                <p><strong>Caching:</strong> Redis 24h TTL (if enabled)</p>
+                <div class="code-block" style="margin-top: 0.5rem;">
+                    <code>
+&lt;soapenv:Envelope&gt;<br>
+&nbsp;&nbsp;&lt;soapenv:Body&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;GetTicketDetails&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ticketId&gt;{ticketId}&lt;/ticketId&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/GetTicketDetails&gt;<br>
+&nbsp;&nbsp;&lt;/soapenv:Body&gt;<br>
+&lt;/soapenv:Envelope&gt;
+                    </code>
+                </div>
+            </div>
+            
+            <h3>XML Parsing</h3>
+            <p>Uses <code>xml2js</code> to convert SOAP XML responses to JavaScript objects for processing.</p>
+            
+            <h3>Error Handling</h3>
+            <ul>
+                <li>SOAP faults → Log + return error response</li>
+                <li>Network timeouts → Retry 3 times</li>
+                <li>Invalid XML → Parse error + notification</li>
+                <li>Missing credentials → Return 401</li>
+            </ul>
+        </section>
+
+        <!-- Use Cases -->
+        <section class="content-block">
+            <h2>💡 Use Cases</h2>
+            
+            <ul>
+                <li><strong>Executive Monitoring:</strong> Real-time visibility into MACD operations across all tenants</li>
+                <li><strong>Trend Analysis:</strong> Identify patterns in ticket creation, resolution times, and failure rates</li>
+                <li><strong>Multi-Platform Management:</strong> Manage different Flow Kurmi environments from one dashboard</li>
+                <li><strong>Change Detection:</strong> Track new users, devices, and service activations</li>
+                <li><strong>Historical Reporting:</strong> Analyze ticket trends over weeks/months</li>
+                <li><strong>Troubleshooting:</strong> Drill into ticket details for debugging failed operations</li>
+                <li><strong>Capacity Planning:</strong> Forecast infrastructure needs based on ticket volume</li>
+                <li><strong>SLA Tracking:</strong> Monitor ticket resolution times and identify bottlenecks</li>
+                <li><strong>Audit Trail:</strong> Complete operation history for compliance</li>
+            </ul>
+        </section>
+
+        <!-- Future Enhancements -->
+        <section class="content-block">
+            <h2>🔮 Future Enhancements</h2>
+            
+            <ul>
+                <li>✅ Real-time notifications (WebSocket push)</li>
+                <li>✅ Advanced filtering (date range, user, device)</li>
+                <li>✅ Export to CSV/Excel</li>
+                <li>✅ Custom dashboards per user role</li>
+                <li>✅ SLA alerting (ticket age thresholds)</li>
+                <li>✅ Grafana integration for ops metrics</li>
+                <li>✅ Mobile app (React Native)</li>
+                <li>✅ Multi-language support</li>
+                <li>✅ Dark mode theme</li>
+                <li>✅ User authentication & RBAC</li>
+                <li>✅ Webhook integrations (Slack, Teams)</li>
+                <li>✅ AI-powered ticket categorization</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Built with AI assistance by MZN</p>
+            <p><a href="index.html" class="back-btn">← Back to Projects</a></p>
+        </footer>
+    </div>
+</body>
+</html>
